@@ -2,12 +2,12 @@
   "device": "AMF_CONTROLLER",
   "new": {
     "version": "2.0.3",
-    "url": "https://raw.githubusercontent.com/jmcumicrocontrollerunit-eng/Jmcu-Microcontroller/main/firmware/b/AMF_RelayController.ino.bin",
+    "url": "https://raw.githubusercontent.com/jmcumicrocontrollerunit-eng/Jmcu-Microcontroller/main/firmware/b/AMF-CTRL02.ino.bin",
     "size": 1164944,
-    "sha256": "a492379cfe0448bc13013273cce520fe7209e028a01b3d8d69509d180792ec3b",
-    "name": "AMF_RelayController.ino.bin",
-    "path": "firmware/b/AMF_RelayController.ino.bin",
-    "ts": 1792420329909,
+    "sha256": "70cfc16ec71969e1f932ed6f7e9dbd2ee057264aecb265601d6cfbc5f3e90fbf",
+    "name": "AMF-CTRL02.ino.bin",
+    "path": "firmware/b/AMF-CTRL02.ino.bin",
+    "ts": 1792420746973,
     "slot": "b"
   },
   "old": null
