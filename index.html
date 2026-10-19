@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>OTA Firmware Hub</title>
+<title>AMF Controller Update</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>💧</text></svg>">
 <style>
 :root{--bg:#f4f6fb;--card:#ffffff;--ink:#141a2e;--mute:#6b7494;--line:#e3e7f2;--a:#5b6cff;--a2:#22d3ee;--warn:#f59e0b;--old:#f59e0b;--new:#10b981;--shadow:0 10px 30px rgba(40,50,120,.08);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -65,8 +66,8 @@ summary{cursor:pointer;font-weight:700;font-size:15px}
 </head>
 <body>
 <div class="hero"><div class="wrap">
-  <h1>📡 OTA Firmware Hub</h1>
-  <p>วางไฟล์ .bin ช่องไหนก็ได้ ระบบจะเทียบเวอร์ชันให้เอง อันที่สูงกว่าเป็นเวอร์ชันใหม่ อันที่ต่ำกว่าเป็นเวอร์ชันเก่า</p>
+  <h1>💧 AMF Controller Update</h1>
+  <p>อัปเดตเฟิร์มแวร์ OTA ของ AMF Controller (ESP32) — วางไฟล์ .bin ช่องไหนก็ได้ ระบบจะเทียบเวอร์ชันให้เอง อันที่สูงกว่าเป็นเวอร์ชันใหม่ อันที่ต่ำกว่าเป็นเวอร์ชันเก่า</p>
   <span class="chip"><span class="dot off" id="dot"></span><span id="status">กำลังเชื่อมต่อ...</span></span>
 </div></div>
 
@@ -86,12 +87,12 @@ summary{cursor:pointer;font-weight:700;font-size:15px}
   <div class="grid" id="slots"></div>
 
   <div class="card sec">
-    <h3>🧾 Manifest สำหรับ MCU</h3>
+    <h3>🧾 Manifest สำหรับ AMF Controller</h3>
     <pre id="manifest">// อัปโหลดไฟล์ก่อน</pre>
     <div class="row"><button id="copyMan">คัดลอก JSON</button></div>
-    <h3 style="margin-top:18px">ลิงก์ manifest (ให้ MCU ดึงไฟล์นี้ไฟล์เดียว)</h3>
+    <h3 style="margin-top:18px">ลิงก์ manifest (ให้ AMF Controller ดึงไฟล์นี้ไฟล์เดียว)</h3>
     <div class="url"><code id="manUrl">-</code><button data-copy-id="manUrl">คัดลอก</button></div>
-    <p class="note">MCU เปรียบเทียบ <code>version</code> ของตัวเอง กับ <code>new.version</code> ถ้าไม่ตรงให้ดาวน์โหลด <code>new.url</code> แล้วตรวจ SHA-256 ก่อนเขียนลง flash ส่วนไฟล์เวอร์ชันเก่าเก็บไว้สำหรับ rollback</p>
+    <p class="note">AMF Controller เปรียบเทียบ <code>version</code> ของตัวเอง กับ <code>new.version</code> ถ้าไม่ตรงให้ดาวน์โหลด <code>new.url</code> แล้วตรวจ SHA-256 ก่อนเขียนลง flash ส่วนไฟล์เวอร์ชันเก่าเก็บไว้สำหรับ rollback</p>
   </div>
 </main>
 <div class="toast" id="toast"></div>
@@ -108,6 +109,7 @@ const cfg=()=>({owner:$("#s-owner").value.trim(),repo:$("#s-repo").value.trim(),
 const enc=p=>p.split("/").map(encodeURIComponent).join("/");
 const rawUrl=p=>{const c=cfg();return `https://raw.githubusercontent.com/${c.owner}/${c.repo}/${c.branch}/${enc(p)}`};
 const MAN="firmware/manifest.json";
+const DEVICE="AMF_CONTROLLER";
 
 /* ---- version compare ---- */
 const nums=v=>(String(v||"").match(/\d+/g)||[]).map(Number);
@@ -134,14 +136,14 @@ const roleOf=k=>{const r=roles();return r.new===k?"new":r.old===k?"old":null};
 /* ---- settings ---- */
 (()=>{
   const h=location.hostname,g={owner:h.endsWith(".github.io")?h.split(".")[0]:"",repo:location.pathname.split("/")[1]||""};
-  $("#s-owner").value=LS.get("ota.owner")||g.owner;
-  $("#s-repo").value=LS.get("ota.repo")||g.repo;
-  $("#s-branch").value=LS.get("ota.branch")||"main";
-  $("#s-token").value=LS.get("ota.token")||"";
+  $("#s-owner").value=LS.get("amf.owner")||g.owner;
+  $("#s-repo").value=LS.get("amf.repo")||g.repo;
+  $("#s-branch").value=LS.get("amf.branch")||"main";
+  $("#s-token").value=LS.get("amf.token")||"";
   if(!$("#s-token").value)$("#settings").open=true;
 })();
-$("#saveCfg").onclick=()=>{const c=cfg();LS.set("ota.owner",c.owner);LS.set("ota.repo",c.repo);LS.set("ota.branch",c.branch);LS.set("ota.token",c.token);toast("บันทึกแล้ว");load()};
-$("#clearTok").onclick=()=>{LS.del("ota.token");$("#s-token").value="";toast("ลบ Token แล้ว");load()};
+$("#saveCfg").onclick=()=>{const c=cfg();LS.set("amf.owner",c.owner);LS.set("amf.repo",c.repo);LS.set("amf.branch",c.branch);LS.set("amf.token",c.token);toast("บันทึกแล้ว");load()};
+$("#clearTok").onclick=()=>{LS.del("amf.token");$("#s-token").value="";toast("ลบ Token แล้ว");load()};
 
 /* ---- GitHub API ---- */
 async function gh(method,path,body){
@@ -160,7 +162,7 @@ function mcu(x){return x?{version:x.version||null,url:rawUrl(x.path),size:x.size
 function stored(x,k){return x?{...mcu(x),name:x.name,path:x.path,ts:x.ts,slot:k}:null}
 function manifestObj(full){
   const r=roles(),f=full?stored:(x=>mcu(x));
-  return{new:r.new?f(state[r.new],r.new):null,old:r.old?f(state[r.old],r.old):null};
+  return{device:DEVICE,new:r.new?f(state[r.new],r.new):null,old:r.old?f(state[r.old],r.old):null};
 }
 async function saveManifest(){
   const cur=await gh("GET",MAN);
