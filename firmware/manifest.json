@@ -1,7 +1,7 @@
 {
   "device": "AMF_CONTROLLER",
   "new": {
-    "version": null,
+    "version": "2.0.1",
     "url": "https://raw.githubusercontent.com/jmcumicrocontrollerunit-eng/Jmcu-Microcontroller/main/firmware/b/AMF_RelayController.ino.bin",
     "size": 1164784,
     "sha256": "0d7ba006808012dba610527cbf2cbb5de62f73a20061cb2d45b07cd16f3a6b48",
