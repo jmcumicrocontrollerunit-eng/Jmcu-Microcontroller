@@ -1,5 +1,14 @@
 {
   "device": "AMF_CONTROLLER",
-  "new": null,
+  "new": {
+    "version": "1.0.1",
+    "url": "https://raw.githubusercontent.com/jmcumicrocontrollerunit-eng/Jmcu-Microcontroller/main/firmware/b/AMF-CTRL02.ino.bin",
+    "size": 1052528,
+    "sha256": "02e1eb5987d7611072c1cfc83a4bf2e8a5ed079b6f0e03268988bbd930b30b36",
+    "name": "AMF-CTRL02.ino.bin",
+    "path": "firmware/b/AMF-CTRL02.ino.bin",
+    "ts": 1792542185396,
+    "slot": "b"
+  },
   "old": null
 }
